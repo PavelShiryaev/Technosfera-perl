@@ -23,15 +23,15 @@ sub run {
     my $num = 0;
     my $len1 = length($str);
     my $len2 = length($substr);
-    my $f = -1;
-    while (1) {
-        $f = index($str, $substr, $f + 1);
-        last if ($f == -1);
-        $num++;
+    for (my $i = 0; $i < $len1; $i++) {
+        if (substr($str, $i, $len2) eq $substr) {
+            $num++;
+        }
     }
+
     print "$num\n";
 }
 
-run('abe#abab#deab', 'ab');
+run('e#abab#deab', 'ab');
 
 1;

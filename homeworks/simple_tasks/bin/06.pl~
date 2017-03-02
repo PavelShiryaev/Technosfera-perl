@@ -21,7 +21,7 @@ sub encode {
     my $len = length($str);
     for (my $i = 0; $i < $len; $i++) {
         my $c = substr($str, $i, 1);
-        $encoded_str = $encoded_str . chr((ord($c) + $key + 127) % 127);
+        substr($encoded_str, $i, 0) = chr((ord($c) + $key + 127) % 127);
     }
 
     print "$encoded_str\n";
@@ -41,7 +41,7 @@ sub decode {
     my $len = length($encoded_str);
     for (my $i = 0; $i < $len; $i++) {
         my $c = substr($encoded_str, $i, 1);
-        $str = $str . chr((ord($c) - $key + 127) % 127);
+        substr($str, $i, 0) = chr((ord($c) - $key + 127) % 127);
     }
 
 

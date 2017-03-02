@@ -3,6 +3,7 @@
 use warnings;
 use 5.010;
 use strict;
+use warnings;
 
 =encoding UTF8
 =head1 SYNOPSYS
@@ -18,12 +19,20 @@ run(1, 2, 2) - печатает "1, 2\n"
 
 sub mn {
     my ($x, $y) = @_;
-    $x < $y ? return $x : return $y;
+    if ($x < $y) {
+        return $x;
+    } else {
+        return $y;
+    }
 }
 
 sub mx {
     my ($x, $y) = @_;
-    $x > $y ? return $x : return $y;
+    if ($x > $y) {
+        return $x;
+    } else {
+        return $y;
+    }
 }
 
 sub run {
