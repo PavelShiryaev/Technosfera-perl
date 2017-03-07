@@ -171,8 +171,9 @@ sub clone {
                 $cloned = \%hash;
             }   
         }
-        $cloned = $orig unless (ref $orig);
+        $cloned = $orig if (scalar $orig);
 	return $cloned;
 }
 
+p clone(TESTS);
 1;
