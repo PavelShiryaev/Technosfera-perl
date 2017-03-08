@@ -52,17 +52,27 @@ sub is_anagrams{
         $r1[$i] = 0;
         $r2[$i] = 0;
     }
-
     my $f = 1;
+    my %h1;
     for my $var(@a1) {
-        $r1[ord($var) - ord('а')]++;
+        if (!(exists $h1{$var})) {
+            $h1{$var} = 1;
+        } else {
+            $h1{$var}++;
+        }
     }
+    my %h2;
     for my $var(@a2) {
-        $r2[ord($var) - ord('а')]++;
+        if (!(exists $h2{$var})) {
+            $h2{$var} = 1;
+        } else {
+            $h2{$var}++;
+        }
     }
-    for my $i(0 .. 32) {
-        $f = 0 if ($r1[$i] != $r2[$i]);
+    for my $var(keys %h1) {
+        $f = 0 if (!(exists $h2{$var}) || $h2{$var} != $h1{$var});
     }
+    $f = 0 if (scalar @a1 != scalar @a2);
     return $f;
 }
 
@@ -85,7 +95,7 @@ sub anagram {
             $use{$words_list -> [$i]} = 1;
             my $arr = create_arr();
             for my $j ($i + 1 .. $#$words_list) {
-                if ((! exists $use{$words_list -> [$j]}) && is_anagrams($words_list -> [$i], $words_list -> [$j])) {
+                if ((!(exists $use{$words_list -> [$j]})) && is_anagrams($words_list -> [$i], $words_list -> [$j])) {
                     push @$arr, $words_list -> [$j];
                     $use{$words_list -> [$j]} = 1;
                 }
@@ -95,8 +105,9 @@ sub anagram {
         }
     } 
     return \%result;
+
 }
 
-#p anagram(['пятак', 'ЛиСток', 'пятка', 'стул', 'ПяТаК', 'слиток', 'тяпка', 'столик', 'слиток']);
-
+p anagram([qw(пятка слиток пятак ЛиСток стул ПяТаК тяпка столик слиток)]);
+#p anagram(['слиток', 'столик', 'столик']);
 1;
