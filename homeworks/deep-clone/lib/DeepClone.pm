@@ -174,7 +174,6 @@ sub clone {
             }   
         }
         $cloned = $orig unless (ref $orig);
-        $cloned = undef if (ref $orig eq 'CODE');
 	return $cloned;
 }
 p clone($TESTS);
