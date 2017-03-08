@@ -154,7 +154,7 @@ say $#{ $href->{ary} }; # 7
 
 ```perl
 $track = {
-    name => "Dogs",
+    name => "Nobody home",
     band => "Pink Floyd",
     album => { name => "The Wall", year => 1979 }
 };
@@ -942,7 +942,7 @@ my $x = rand();
 my $y = rand();
 
 for my $op (qw(+ - * /)) {
-    say "$x $op $y = " . $op->( $x,$y );
+    say "$x $op $y = " . $op{$op}->( $x,$y );
 }
 ```
 
@@ -1832,7 +1832,7 @@ m/^https?|ftp$/;              # ???
 --
 ```perl
 # match 'http', 'https' or 'ftp'
-m/^(https|ftp)$/;             # ok
+m/^(https?|ftp)$/;             # ok
 ```
 
 ---
@@ -2687,6 +2687,10 @@ Compare:
 Элементами ссылок на массив и хеш могут быть любые из указанных выше конструкций.
 Любые, отличные от указанных типы данных - недопустимы. В этом случае результатом клонирования должен быть undef.
 
+.small16[
+https://github.com/Nikolo/Technosfera-perl/tree/master/homeworks/deep-clone
+]
+
 ---
 
 # Домашнее задание
@@ -2708,6 +2712,10 @@ Compare:
 * Множества из одного элемента не должны попасть в результат.
 * Все слова должны быть приведены к нижнему регистру.
 * Каждое слово должно встречаться только один раз.
+
+.small16[
+https://github.com/Nikolo/Technosfera-perl/tree/master/homeworks/anagrams
+]
 
 ---
 class:center, middle
@@ -2809,7 +2817,7 @@ say "Now: ${\scalar localtime}";
 ---
 
 layout:false
-# Уникод: конкатенация
+# Юникод: конкатенация
 
 .small[
 ```perl
