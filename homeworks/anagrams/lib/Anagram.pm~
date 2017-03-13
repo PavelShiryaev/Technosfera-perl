@@ -76,11 +76,6 @@ sub is_anagrams{
     return $f;
 }
 
-sub create_arr {
-    my @a;
-    return \@a;
-}
-
 sub anagram {
     my $words_list = shift;
     my %result;
@@ -93,21 +88,21 @@ sub anagram {
     for my $i (0 .. $#$words_list) {
         if (! exists $use{$words_list -> [$i]}) {
             $use{$words_list -> [$i]} = 1;
-            my $arr = create_arr();
+            my @arr;
             for my $j ($i + 1 .. $#$words_list) {
                 if ((!(exists $use{$words_list -> [$j]})) && is_anagrams($words_list -> [$i], $words_list -> [$j])) {
-                    push @$arr, $words_list -> [$j];
+                    push @arr, $words_list -> [$j];
                     $use{$words_list -> [$j]} = 1;
                 }
             }
-            unshift @$arr, $words_list -> [$i];
-            $result{$words_list -> [$i]} = $arr if (scalar @$arr > 1);
+            unshift @arr, $words_list -> [$i];
+            $result{$words_list -> [$i]} = \@arr if (scalar @arr > 1);
         }
     } 
     return \%result;
 
 }
 
-#p anagram([qw(пятка слиток пятак ЛиСток стул ПяТаК тяпка столик слиток)]);
+p anagram([qw(пятка слиток пятак ЛиСток стул ПяТаК тяпка столик слиток)]);
 #p anagram(['слиток', 'столик', 'столик']);
 1;

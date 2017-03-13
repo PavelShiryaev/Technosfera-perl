@@ -182,7 +182,8 @@ PERL_ARCHIVEDEP    =
 PERL_ARCHIVE_AFTER = 
 
 
-TO_INST_PM = lib/DeepClone.pm
+TO_INST_PM = lib/.DeepClone.pm.swo \
+	lib/DeepClone.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -857,6 +858,7 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
+	  'lib/.DeepClone.pm.swo' 'blib/lib/.DeepClone.pm.swo' \
 	  'lib/DeepClone.pm' 'blib/lib/DeepClone.pm' 
 	$(NOECHO) $(TOUCH) pm_to_blib
 

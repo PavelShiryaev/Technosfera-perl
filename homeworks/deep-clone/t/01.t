@@ -71,7 +71,7 @@ $CYCLE_ARRAY->[6] = [ 1, 2, 3, [ { 1 => $CYCLE_ARRAY } ] ];
 my $CYCLE_HASH = { a => 1, b => 2 };
 $CYCLE_HASH->{c} = $CYCLE_HASH;
 $CYCLE_HASH->{d} = $CYCLE_HASH;
-#$CYCLE_HASH->{e} = { a => 1, b => 2, [ { 1 => $CYCLE_HASH } ] };
+$CYCLE_HASH->{e} = { a => 1, b => 2, [ { 1 => $CYCLE_HASH } ] };
 
 my $TESTS = [
     {
