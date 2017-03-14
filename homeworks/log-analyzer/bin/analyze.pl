@@ -4,7 +4,8 @@ use strict;
 use warnings;
 use 5.010;
 use DDP;
-
+use Data::Table;
+use Text::CSV;
 
 my $filepath = $ARGV[0];
 die "USAGE:\n$0 <log-file.bz2>\n"  unless $filepath;
@@ -34,7 +35,7 @@ sub parse_file {
     while (my $log_line = <$fd>) {
         $log_line =~ /(\S+)\s+\[(\N*)\]\s+\"(\N*)\"\s+(\S+)\s+(\S+)\s+\"(\N*)\"\s+\"(\N*)\"\s+\"(\N*)\"/;
         my $IP = $1; my $time = $2; my $str_get = $3; my $status = $4; my $cnt_b = $5; my $refferer = $6; my $user_agent = $7; my $coef = $8;
-        $coef = 0 if ($coef eq "-");
+        $coef = 1 if ($coef eq "-");
         $total_count++;
         $h_m{get_min($time)} = 1;
         if (!$res_h{$IP}) {
@@ -91,10 +92,7 @@ sub parse_file {
          }
          push @table, \@a;
     }
-    @table = sort {$b->[1] <=> $a->[1]} @table;
-    p $table[5];    
-
-
+    @table = sort {$b->[1] <=> $a->[1]} @table; 
 
     my @total = ("total", $total_count, $total_count / (scalar keys %h_m));
     for my $i(0..($#arr_data + 1)) {
@@ -104,17 +102,35 @@ sub parse_file {
         for my $i(3..$#$var) {
             $total[$i] += $var->[$i];
         }
-    }
-    say join " ", @total;    
-   # p %res_h;
-    # you can put your code here
+    } 
 
+    # you can put your code here
+    push @$result, \@head;
+    push @$result, \@total;
+    for my $i(0..9) {
+        push @$result, $table[$i];
+    }    
     return $result;
 }
 
 sub report {
     my $result = shift;
-
-    # you can put your code here
-
+    my $tsv = Text::CSV->new({
+        #quote_char      => undef,
+        #escape_char     => undef,
+        sep_char        => "\t",
+        eol             => "\n",
+        quote_space     => 0,
+        quote_null      => 0,
+    });
+    for my $var(@$result) {
+        next if ($var->[0] eq "IP");
+        $$var[2] = sprintf("%.2f", $$var[2]);
+        for my $i(3..$#$var) {
+            $$var[$i] = int $$var[$i];
+        }
+    }
+    for my $var(@$result) {
+        $tsv->print(\*STDOUT, $var);
+    }
 }
