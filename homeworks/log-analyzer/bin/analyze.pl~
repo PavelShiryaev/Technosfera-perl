@@ -33,8 +33,8 @@ sub parse_file {
     my %h_m;
     open my $fd, "-|", "bunzip2 < $file" or die "Can't open '$file': $!";
     while (my $log_line = <$fd>) {
-        $log_line =~ /(\S+)\s+\[(\N*)\]\s+\"\N*\"\s+(\S+)\s+(\S+)\s+\"\N*\"\s+\"\N*\"\s+\"(\N*)\"/;
-        my $IP = $1; my $time = $2; my $status = $3; my $cnt_b = $4; my $coef = $5;
+        $log_line =~ /(\S+)\s+\[(\N*)\]\s+\"(\N*)\"\s+(\S+)\s+(\S+)\s+\"(\N*)\"\s+\"(\N*)\"\s+\"(\N*)\"/;
+        my $IP = $1; my $time = $2; my $str_get = $3; my $status = $4; my $cnt_b = $5; my $refferer = $6; my $user_agent = $7; my $coef = $8;
         $coef = 1 if ($coef eq "-");
         $total_count++;
         $h_m{get_min($time)} = 1;

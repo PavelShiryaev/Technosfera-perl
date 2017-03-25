@@ -1,0 +1,11 @@
+package user;
+
+use strict;
+use warnings;
+
+use myconst 
+            ZERO => 0,
+            EMPTY_STRING => '';
+
+print ZERO;
+1;
