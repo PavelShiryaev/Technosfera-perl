@@ -16,7 +16,7 @@ sub check_matrix {
 
 sub calc {
     my ($mat_a, $mat_b, $i, $j, $n, $res) = @_;
-    for my $k(0..$n - 1) {
+    for my $k(0..$n - 1){
         $res->[$i]->[$j] += $mat_a->[$i]->[$k] * $mat_b->[$k]->[$j];
     }
 }

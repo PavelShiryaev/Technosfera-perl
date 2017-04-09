@@ -55,7 +55,6 @@ sub mult {
 
     close($w);
     my @a = split(' ', <$r>);
-    say join ", ", @a;
     close($r);
     $i = 0;
     while ($i < $#a) {
