@@ -87,7 +87,7 @@ sub parse {
     my %h;
     
     return \%h if (substr($buf, 0, 1) eq 'Z');
-    #die "The blob should start from 'D' or 'Z'" if (substr($buf, $ind, 1) ne 'D');
+    die "The blob should start from 'D' or 'Z'" if (substr($buf, $ind, 1) ne 'D');
     die "Garbage ae the end of the buffer" if (substr($buf, length($buf) - 1, 1) ne 'Z');
     $ind++;
     $h{'type'} = 'directory';

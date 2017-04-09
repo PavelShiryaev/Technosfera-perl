@@ -24,7 +24,7 @@ $SIG{INT} = sub {
         $f = 1;
         print STDERR "Double Ctrl+C for exit";
     } else {
-        print_inf();
+        print_inf(); 
         exit;
     }
 };

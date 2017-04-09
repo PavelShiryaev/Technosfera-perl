@@ -92,7 +92,7 @@ sub parse {
     $ind++;
     $h{'type'} = 'directory';
     my $len_name = getnum(substr($buf, $ind, 1), substr($buf, $ind + 1, 1));
-    $ind += 2;
+    $ind += 2; 
     $h{'name'} = decode("UTF-8", substr($buf, $ind, $len_name));
     $ind += $len_name;
     my $mode = getnum(substr($buf, $ind, 1), substr($buf, $ind + 1, 1));
