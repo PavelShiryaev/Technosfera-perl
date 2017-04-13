@@ -181,7 +181,8 @@ PERL_ARCHIVEDEP    =
 PERL_ARCHIVE_AFTER = 
 
 
-TO_INST_PM = lib/Local/MatrixMultiplier.pm
+TO_INST_PM = lib/Local/MatrixMultiplier.pm \
+	lib/Local/go.pl
 
 
 # --- MakeMaker platform_constants section:
@@ -854,7 +855,8 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  'lib/Local/MatrixMultiplier.pm' 'blib/lib/Local/MatrixMultiplier.pm' 
+	  'lib/Local/MatrixMultiplier.pm' 'blib/lib/Local/MatrixMultiplier.pm' \
+	  'lib/Local/go.pl' 'blib/lib/Local/go.pl' 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

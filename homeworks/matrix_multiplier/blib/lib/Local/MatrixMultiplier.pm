@@ -28,8 +28,7 @@ sub mult {
     check_matrix($mat_a, $n);
     check_matrix($mat_b, $n);
     
-    my ($r, $w);
-    pipe ($r, $w);
+    my %h;
     my $i = 0;
     $max_child--;
     while ($i < $n) {
@@ -37,7 +36,12 @@ sub mult {
         while ($j < $n) {
             if ($max_child > 0) {
                 $max_child--;
-                if (!fork()) {
+                my ($r, $w);
+                pipe($r, $w);
+                if (my $ch = fork()) {
+                    $h{$ch} = $r;
+                    close($w);
+                } else {
                     close($r);
                     calc($mat_a, $mat_b, $i, $j, $n, $res);
                     print {$w} $res->[$i]->[$j].' '.$i.' '.$j.' ';
@@ -53,13 +57,11 @@ sub mult {
         $i++;
     }
 
-    close($w);
-    my @a = split(' ', <$r>);
-    close($r);
-    $i = 0;
-    while ($i < $#a) {
-        $res->[$a[$i + 1]]->[$a[$i + 2]] = $a[$i];
-        $i += 3;
+    for my $key (keys %h) {
+        my $b = $h{$key};
+        my @a = split(' ', <$b>);
+        $res->[$a[1]]->[$a[2]] = $a[0];
+        close $b;
     }
     return $res;
 }
