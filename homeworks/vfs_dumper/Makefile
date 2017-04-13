@@ -183,6 +183,7 @@ PERL_ARCHIVE_AFTER =
 
 
 TO_INST_PM = dumper/.exists \
+	lib/.VFS.pm.swo \
 	lib/VFS.pm
 
 
@@ -857,6 +858,7 @@ ppd :
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
 	  'dumper/.exists' '$(INST_LIB)/dumper/.exists' \
+	  'lib/.VFS.pm.swo' 'blib/lib/.VFS.pm.swo' \
 	  'lib/VFS.pm' 'blib/lib/VFS.pm' 
 	$(NOECHO) $(TOUCH) pm_to_blib
 

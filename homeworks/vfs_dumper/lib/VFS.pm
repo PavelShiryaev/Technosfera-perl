@@ -8,13 +8,11 @@ use File::Spec::Functions qw{catdir};
 use JSON::XS;
 no warnings 'experimental::smartmatch';
 use Encode qw(decode encode);
-use Digest::SHA1 qw(sha1 sha1_hex sha1_base64);
 
 my $ind = 0;
 
-sub mode2s {
+sub get_mode {
     my $n = shift;
-    my %h;
     my %h_o;
     if (($n & 1) == 1) {
         $h_o{'execute'} = JSON::XS::true;
@@ -31,45 +29,15 @@ sub mode2s {
     } else {
         $h_o{'read'} = JSON::XS::false;
     }
-    $h{'other'} = \%h_o;
-    
+    return \%h_o;
+}
 
-    my %h_g;
-    if (($n & 8) == 8) {
-        $h_g{'execute'} = JSON::XS::true;
-    } else {
-        $h_g{'execute'} = JSON::XS::false;
-    }
-    if (($n & 16) == 16) {
-        $h_g{'write'} = JSON::XS::true;
-    } else {
-        $h_g{'write'} = JSON::XS::false;
-    }
-    if (($n & 32) == 32) {
-        $h_g{'read'} = JSON::XS::true;
-    } else {
-        $h_g{'read'} = JSON::XS::false;
-    }
-    $h{'group'} = \%h_g;
-
-
-    my %h_u;
-    if (($n & 64) == 64) {
-        $h_u{'execute'} = JSON::XS::true;
-    } else {
-        $h_u{'execute'} = JSON::XS::false;
-    }
-    if (($n & 128) == 128) {
-        $h_u{'write'} = JSON::XS::true;
-    } else {
-        $h_u{'write'} = JSON::XS::false;
-    }
-    if (($n & 256) == 256) {
-        $h_u{'read'} = JSON::XS::true;
-    } else {
-        $h_u{'read'} = JSON::XS::false;
-    }
-    $h{'user'} = \%h_u;
+sub mode2s {
+    my $n = shift;
+    my %h;
+    $h{'other'} = get_mode($n);
+    $h{'group'} = get_mode($n >> 3);
+    $h{'user'} = get_mode($n >> 6);
     return \%h;
 }
 
@@ -87,7 +55,7 @@ sub parse {
     my %h;
     
     return \%h if (substr($buf, 0, 1) eq 'Z');
-    die "The blob should start from 'D' or 'Z'" if (substr($buf, $ind, 1) ne 'D');
+    die "The blob should start from 'D' or 'Z'" if ($ind >= length($buf) || substr($buf, $ind, 1) ne 'D');
     die "Garbage ae the end of the buffer" if (substr($buf, length($buf) - 1, 1) ne 'Z');
     $ind++;
     $h{'type'} = 'directory';
@@ -116,7 +84,7 @@ sub parse {
             my $size = getnum(substr($buf, $ind, 1), substr($buf, $ind + 1, 1), substr($buf, $ind + 2, 1), substr($buf, $ind + 3, 1));
             $ind += 4;
             $hf{'size'} = $size;
-            $hf{'hash'} = sha1(substr($buf, $ind, 20));
+            $hf{'hash'} = unpack("H*", substr($buf, $ind, 20));
             $ind += 20;
             push @a, \%hf;
         }
