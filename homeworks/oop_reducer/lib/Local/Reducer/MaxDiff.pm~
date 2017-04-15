@@ -24,7 +24,7 @@ our $VERSION = '1.00';
         return if (!$ncl);
         my $top = $ncl->get($self->{top});
         my $bottom = $ncl->get($self->{bottom});
-        return if (!$bottom || $bottom =~ /[^0-9]/ || !$top || $top =~ /[^0-9]/);
+        return if (!$bottom || $bottom =~ /[^0-9]/);
         my $dif = abs($bottom - $top);
         $self->{result} = $dif if ($dif > $self->{result});
     }  

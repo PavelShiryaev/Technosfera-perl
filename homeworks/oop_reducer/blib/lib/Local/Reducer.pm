@@ -21,8 +21,10 @@ our $VERSION = '1.00';
 
     sub reduce_n {
         my ($self, $n) = @_;
-        for (my $i = 0; $i < $n && defined $self->reduce(); $i++) {}
-            return $self->reduced();
+        for (my $i = 0; $i < $n; $i++) {
+            $self->reduce();
+        }
+        return $self->reduced();
     }
 
     sub reduced {
@@ -32,7 +34,9 @@ our $VERSION = '1.00';
 
     sub reduce_all {
         my ($self) = @_;
-        while (defined $self->reduce()) {}
+        while ($self->{source}->{cnt} < $self->{source}->{n}) {
+            $self->reduce()
+        }
         return $self->reduced();
     }
 }

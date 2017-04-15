@@ -23,11 +23,8 @@ our $VERSION = '1.00';
             for my $i (0..length($_) - 1) {
                 $k++ if (substr($_, $i, 1) eq ':');
             }
-            return undef if ($k != 1);
-            if (/^\s*(\w+)\s*:\s*(.*)\s*$/) {
+            if (/^\s*(\w+)\s*:\s*(.*)\s*$/ && $k == 1) {
                 $struct{$1} = $2;
-            } else {
-                return undef;
             }
         }
         return \%struct;

@@ -1,7 +1,7 @@
 package Local::Source::Text; {
 use strict;
 use warnings;
-use parent 'Local::Source.pm';
+use parent 'Local::Source';
 
 =encoding utf8
 =head1 NAME
@@ -17,13 +17,19 @@ our $VERSION = '1.00';
     sub new {
         my ($class, %params) = @_;
         my $delimiter = $params{delimiter} ? $params{delimiter} : "\n";
-        return Local::Source::new( array => [split $delimiter, $params{text}] );
+        my %h;
+        $h{cnt} = 0;
+        $h{array} = [split $delimiter, $params{text}];
+        my $a = $h{array};
+        my @a = @$a;
+        $h{n} = scalar @a;
+        return bless \%h, $class;
     }
 
     sub next {
         my ($self) = @_;
-        $self->{$cnt}++;
-        return $self->{array}[$self->{$cnt}];
+        $self->{cnt}++;
+        return $self->{array}[$self->{cnt} - 1];
     }
 }
 

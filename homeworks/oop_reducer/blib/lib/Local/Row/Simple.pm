@@ -19,6 +19,11 @@ our $VERSION = '1.00';
         my $str = shift;
         my %struct;
         for (split ',', $str) {
+            my $k = 0;
+            for my $i (0..length($_) - 1) {
+                $k++ if (substr($_, $i, 1) eq ':');
+            }
+            return undef if ($k != 1);
             if (/^\s*(\w+)\s*:\s*(.*)\s*$/) {
                 $struct{$1} = $2;
             } else {
@@ -27,5 +32,6 @@ our $VERSION = '1.00';
         }
         return \%struct;
     }
+}
 
 1;

@@ -16,8 +16,8 @@ our $VERSION = '1.00';
 =cut
     sub next {
         my ($self) = @_;
-        $self->{$cnt}++;
-        return $self->{array}[$self->{$cnt}];
+        $self->{cnt}++; 
+        return $self->{array}->[$self->{cnt} - 1];
     }
 }
 

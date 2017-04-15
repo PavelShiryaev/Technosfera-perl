@@ -16,17 +16,14 @@ our $VERSION = '1.00';
     sub new {
         my ($class, %params) = @_;
         my $r = $class->parse($params{str});
-        return undef if ($r == undef);
-        my %struct = (
-            struct => $r;
-        );
-        return bless \%struct, $class;
+        return undef if (ref $r ne 'HASH');
+        return bless $r, $class;
     }
 
     sub get {
         my ($self, $name, $default) = @_;
-        return $default if (! $self->{struct}->{$name});
-        return $self->{struct}->{$name};
+        return $default if (!$self->{$name});
+        return $self->{$name};
     }
 }
 

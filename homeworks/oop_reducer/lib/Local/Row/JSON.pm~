@@ -16,7 +16,7 @@ our $VERSION = '1.00';
 =head1 SYNOPSIS
 =cut
     sub parse {
-        my $class = shift;
+        my $self = shift;
         my $str = shift;
         my $res = eval{JSON::XS->new->utf8->decode($str)};
         return $res;

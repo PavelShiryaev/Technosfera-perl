@@ -16,13 +16,8 @@ our $VERSION = '1.00';
     sub new {
         my ($class, %params) = @_;
         $params{cnt} = 0;
+        $params{n} = scalar $params{array};
         return bless \%params, $class;
-    }
-
-    sub next {
-        my ($self) = @_;
-        $self{$cnt}++;
-        return $self->{cnt};
     }
 }
 

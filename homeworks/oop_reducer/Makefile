@@ -161,7 +161,7 @@ H_FILES  =
 MAN1PODS = 
 MAN3PODS = lib/Local/Reducer.pm \
 	lib/Local/Reducer/MaxDiff.pm \
-	lib/Local/Reducer/sum.pm \
+	lib/Local/Reducer/Sum.pm \
 	lib/Local/Row.pm \
 	lib/Local/Row/JSON.pm \
 	lib/Local/Row/Simple.pm \
@@ -192,13 +192,14 @@ PERL_ARCHIVE_AFTER =
 
 TO_INST_PM = lib/Local/Reducer.pm \
 	lib/Local/Reducer/MaxDiff.pm \
-	lib/Local/Reducer/sum.pm \
+	lib/Local/Reducer/Sum.pm \
 	lib/Local/Row.pm \
 	lib/Local/Row/JSON.pm \
 	lib/Local/Row/Simple.pm \
 	lib/Local/Source.pm \
 	lib/Local/Source/Array.pm \
-	lib/Local/Source/Text.pm
+	lib/Local/Source/Text.pm \
+	lib/Local/go.pl
 
 
 # --- MakeMaker platform_constants section:
@@ -427,7 +428,7 @@ POD2MAN = $(POD2MAN_EXE)
 manifypods : pure_all config  \
 	lib/Local/Reducer.pm \
 	lib/Local/Reducer/MaxDiff.pm \
-	lib/Local/Reducer/sum.pm \
+	lib/Local/Reducer/Sum.pm \
 	lib/Local/Row.pm \
 	lib/Local/Row/JSON.pm \
 	lib/Local/Row/Simple.pm \
@@ -437,7 +438,7 @@ manifypods : pure_all config  \
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) -u \
 	  lib/Local/Reducer.pm $(INST_MAN3DIR)/Local::Reducer.$(MAN3EXT) \
 	  lib/Local/Reducer/MaxDiff.pm $(INST_MAN3DIR)/Local::Reducer::MaxDiff.$(MAN3EXT) \
-	  lib/Local/Reducer/sum.pm $(INST_MAN3DIR)/Local::Reducer::sum.$(MAN3EXT) \
+	  lib/Local/Reducer/Sum.pm $(INST_MAN3DIR)/Local::Reducer::Sum.$(MAN3EXT) \
 	  lib/Local/Row.pm $(INST_MAN3DIR)/Local::Row.$(MAN3EXT) \
 	  lib/Local/Row/JSON.pm $(INST_MAN3DIR)/Local::Row::JSON.$(MAN3EXT) \
 	  lib/Local/Row/Simple.pm $(INST_MAN3DIR)/Local::Row::Simple.$(MAN3EXT) \
@@ -891,13 +892,14 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
 	  'lib/Local/Reducer.pm' 'blib/lib/Local/Reducer.pm' \
 	  'lib/Local/Reducer/MaxDiff.pm' 'blib/lib/Local/Reducer/MaxDiff.pm' \
-	  'lib/Local/Reducer/sum.pm' 'blib/lib/Local/Reducer/sum.pm' \
+	  'lib/Local/Reducer/Sum.pm' 'blib/lib/Local/Reducer/Sum.pm' \
 	  'lib/Local/Row.pm' 'blib/lib/Local/Row.pm' \
 	  'lib/Local/Row/JSON.pm' 'blib/lib/Local/Row/JSON.pm' \
 	  'lib/Local/Row/Simple.pm' 'blib/lib/Local/Row/Simple.pm' \
 	  'lib/Local/Source.pm' 'blib/lib/Local/Source.pm' \
 	  'lib/Local/Source/Array.pm' 'blib/lib/Local/Source/Array.pm' \
-	  'lib/Local/Source/Text.pm' 'blib/lib/Local/Source/Text.pm' 
+	  'lib/Local/Source/Text.pm' 'blib/lib/Local/Source/Text.pm' \
+	  'lib/Local/go.pl' 'blib/lib/Local/go.pl' 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

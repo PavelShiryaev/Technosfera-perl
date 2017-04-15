@@ -182,7 +182,8 @@ PERL_ARCHIVEDEP    =
 PERL_ARCHIVE_AFTER = 
 
 
-TO_INST_PM = lib/myconst.pm
+TO_INST_PM = lib/go.pl \
+	lib/myconst.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -857,6 +858,7 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
+	  'lib/go.pl' 'blib/lib/go.pl' \
 	  'lib/myconst.pm' 'blib/lib/myconst.pm' 
 	$(NOECHO) $(TOUCH) pm_to_blib
 

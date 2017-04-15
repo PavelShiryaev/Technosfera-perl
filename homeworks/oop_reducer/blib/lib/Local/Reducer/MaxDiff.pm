@@ -17,20 +17,18 @@ our $VERSION = '1.00';
 
     sub reduce {
         my($self) = @_;
-        my $next_elem;
-        if ($self->{source}->next() == undef) {
-            return undef;
-        } else {
-            $next_elem = $self->{source}->next();
-        }
-        my $val = $self->{row_class}->new(str => $next_elem);
-        my $top = $row->get($self->{top});
-	my $bottom = $row->get($self->{bottom});
-        return undef if ($top == undef || $bottom == undef);
+        my $next_elem = $self->{source}->next();
+
+        my $ncl = $self->{row_class}->new(str => $next_elem);
+        
+        return if (!$ncl);
+        my $top = $ncl->get($self->{top});
+        my $bottom = $ncl->get($self->{bottom});
+        return if (!$bottom || $bottom =~ /[^0-9]/ || !$top || $top =~ /[^0-9]/);
         my $dif = abs($bottom - $top);
         $self->{result} = $dif if ($dif > $self->{result});
-        return $self->{result};
-    }
+    }  
+    
 }
 
 1;

@@ -48,6 +48,7 @@ sub check {
 sub import {
     shift;
     die 'error' if (ref $_[0]);
+    die 'error' if (ref @_ ne 'HASH');
     my (%h) = @_;
     my $caller = caller;
     our @export;

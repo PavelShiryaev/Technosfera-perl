@@ -16,7 +16,8 @@ our $VERSION = '1.00';
 =cut
     sub next {
         my ($self) = @_;
-        $self->{cnt}++; 
+        $self->{cnt}++;
+        return undef if ($self->{cnt} - 1 >= @$self->{array}); 
         return $self->{array}->[$self->{cnt} - 1];
     }
 }

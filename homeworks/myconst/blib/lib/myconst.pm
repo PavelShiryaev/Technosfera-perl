@@ -38,6 +38,13 @@ print PI;               # 3.14
 =cut
 
 no strict 'refs';
+
+sub check {
+    my $s = shift;
+    return 1 if (($s =~ /[a-zA-Z]/) eq '');
+    return ($s =~ /[^a-zA-Z_0-9]/);
+}
+
 sub import {
     shift;
     die 'error' if (ref $_[0]);
@@ -48,24 +55,28 @@ sub import {
     our %export_tags;
     our @all;
     for my $key(keys %h) {
+        die 'error' if (check($key) == 1);
         if (ref $h{$key} eq 'HASH') {
             my %hh = %{$h{$key}};
             my @a;
             for my $key1(keys %hh) {
+                die 'error' if (check($key1) == 1);
                 die 'error' if (ref $hh{$key1});
                 *{$caller . "::" . $key1} = sub(){$hh{$key1}};
                 push @export, $key1;
+                push @export_ok, $key1;
                 push @a, $key1;
                 push @all, $key1;
             }
             $export_tags{$key} = \@a;
         } elsif (ref $h{$key}) {
             die 'error';
-        } 
-        *{$caller . "::" . $key} = sub(){$h{$key}};
-        push @export, $key;
-        push @export_ok, $key;
-        push @all, $key;
+        } else {
+            *{$caller . "::" . $key} = sub(){$h{$key}};
+            push @export, $key;
+            push @export_ok, $key;
+            push @all, $key;
+        }
     }
     $export_tags{'all'} = \@all;
     *{$caller . "::" . 'EXPORT'} = \@export;
